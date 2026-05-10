@@ -1,0 +1,182 @@
+/* 
+-- Glitch Notiforcations System
+-- Copyright (C) 2024 Glitch
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+-- GNU General Public License for more details.
+-- 
+-- You should have received a copy of the GNU General Public License
+-- along with this program. If not, see <https://www.gnu.org/licenses/>. */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    overflow: hidden;
+}
+
+#notification-container {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 270px;
+    z-index: 9999;
+}
+
+#notification-template {
+    display: none;
+}
+
+.notification-wrapper {
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s ease;
+}
+
+.notification-wrapper.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Title Styling */
+.notification-title {
+    color: #4a90e2;
+    padding: 4px 0;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.7), 0 0 20px rgba(74, 144, 226, 0.5);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.notification {
+    background-color: transparent;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    margin-top: 8px;
+    border: none;
+    position: relative;
+}
+
+.notification::before {
+    display: none;
+}
+
+.notification::after {
+    display: none;
+}
+
+.notification-divider {
+    position: relative;
+    height: 2px;
+    margin: 5px 0 15px 0;
+    background: linear-gradient(to right, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.2) 20%, 
+        rgba(255, 255, 255, 0.4) 40%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.4) 60%,
+        rgba(255, 255, 255, 0.2) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.notification-divider::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 135px;
+    height: 5px;
+    background-color: #4a90e2;
+    border-radius: 0;
+    box-shadow: 0 0 10px #4a90e2, 0 0 20px rgba(74, 144, 226, 0.5);
+}
+
+.notification-body {
+    color: white;
+    padding: 13px;
+    font-size: 13px;
+    line-height: 1.4;
+    background-color: rgba(180, 185, 195, 0.2);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border: 1px solid rgba(180, 185, 195, 0.6);
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+    
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    
+    margin: 0;
+    
+    font-size: clamp(11px, 3.5vw, 14px);
+    max-height: 108px;
+    overflow-y: auto;
+}
+
+.notification-body::before,
+.notification-body::after {
+    display: none;
+}
+
+.notification-divider.custom-color::after {
+    background-color: var(--custom-color, #4a90e2);
+    box-shadow: 0 0 10px var(--custom-color, #4a90e2), 0 0 20px rgba(var(--custom-color, #4a90e2), 0.5);
+}
+
+.notification-divider.custom-color::after {
+    background-color: var(--custom-color, #4a90e2);
+    box-shadow: 0 0 10px var(--custom-color, #4a90e2), 0 0 20px var(--custom-color, #4a90e2);
+}
+
+[data-color] .notification-title {
+    color: attr(data-color);
+    text-shadow: 0 0 10px attr(data-color), 0 0 20px attr(data-color);
+}
+
+.notification-title-group {
+    margin-bottom: 8px;
+}
+
+.notification-title-group .notification-body {
+    margin-top: 5px;
+}
+
+.notification-title-group .notification-body:not(:last-child) {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notification-body.animate-in {
+    animation: fadeInRight 0.3s ease-out forwards;
+}
+
+.notification-body.animate-out {
+    animation: fadeOutRight 0.3s ease-in forwards;
+}
